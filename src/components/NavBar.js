@@ -4,7 +4,7 @@ import { Menu, Container, Button } from "semantic-ui-react";
 class NavBar extends Component {
   render() {
     return (
-      <Menu inverted fixed="top" style={{background:'#706F8E'}}>
+      <Menu inverted fixed="top" style={{background:'#1396F9'}}>
         <Container>
           <Menu.Item header >
             <img src="http://eastendlocal.com/wp-content/uploads/2017/09/local_events_1024.png" />  

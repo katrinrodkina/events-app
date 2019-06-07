@@ -73,6 +73,8 @@ class EventBoard extends Component {
         isOpen:false
       })
    }
+
+
   
   render() {
     return (
