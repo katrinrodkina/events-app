@@ -7,7 +7,7 @@ const events = [
  {
    id: '1',
    title: 'Brooklyn Bridge Walk',
-    date: '2019-03-27T11:00:00+00:00',
+    date: '2019-03-27',
     category: 'walking tour',
     description: 'Walk across Brooklyn Bridge',
     city: 'NYC',
@@ -29,7 +29,7 @@ const events = [
   {
     id: '2',
     title: 'Chelsea Market',
-     date: '2019-05-27T11:00:00+00:00',
+     date: '2019-05-27',
      category: 'tasting',
      description: 'Explore iconic Chelsea Market',
      city: 'NYC',
@@ -48,6 +48,7 @@ const events = [
        }
      ]
    },
+ 
 ]
 
 
@@ -57,15 +58,20 @@ class EventBoard extends Component {
 
     this.state={
       events:events,
-      isOpen:false
+      isOpen:false,
+      selectedEvent:null
     }
     this.openForm = this.openForm.bind(this)
     this.closeForm = this.closeForm.bind(this)
+    this.openEvent = this.openEvent.bind(this)
+    this.editEvent = this.editEvent.bind(this)
+    this.deleteEvent = this.deleteEvent.bind(this)
   }
 
   openForm() {
     this.setState( {
-      isOpen:true
+      isOpen:true,
+      selectedEvent:null
     })
   }
    closeForm() {
@@ -74,7 +80,33 @@ class EventBoard extends Component {
       })
    }
 
+   openEvent(event) {
+    this.setState( {
+      isOpen:true,
+      selectedEvent:event
+    })
+   }
 
+   editEvent(updatedEvent) {
+    this.setState({
+      events: events.map(event=> {
+          if(event.id === updatedEvent.id) {
+            return {...updatedEvent}
+          }
+          else {
+            return event
+          }
+        }),
+      isOpen:false,
+      selectedEvent:null
+    })
+   }
+
+   deleteEvent(eventId) {
+    this.setState( {
+      events: events.filter(event=>event.id !== eventId)
+    })
+   }
   
   render() {
     return (
@@ -82,12 +114,15 @@ class EventBoard extends Component {
         <Grid>
            <Grid.Column width={10}>
            <Header as='h1'>Event List: </Header>
-           <EventList events={this.state.events} />
+           <EventList events={this.state.events}  openEvent={this.openEvent}  deleteEvent={this.deleteEvent}   />
            </Grid.Column>
            <Grid.Column width={6}
            >
            <Button positive content='Create Event'  onClick={()=>this.openForm()}/> 
-           {this.state.isOpen &&   < NewEvent closeForm={this.closeForm} />}
+           {this.state.isOpen &&  
+             < NewEvent  key={this.state.selectedEvent ? this.state.selectedEvent.id : 0}  //!!!! in order for component to rerender
+                  closeForm={this.closeForm} selectedEvent={this.state.selectedEvent} 
+                  editEvent={this.editEvent}/>}
          
            </Grid.Column>
         </Grid>

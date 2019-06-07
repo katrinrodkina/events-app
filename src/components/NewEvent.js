@@ -5,7 +5,7 @@ class NewEvent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
+      title: '' ,//|| this.props.selectedEvent.title,
       date: '',
       city: '',
       hostedBy: ''
@@ -13,6 +13,17 @@ class NewEvent extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+
+  componentDidMount() {
+      if (this.props.selectedEvent!==null) {
+        this.setState({
+          ...this.props.selectedEvent
+        })
+      }
+  }
+
+
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
@@ -21,17 +32,15 @@ class NewEvent extends Component {
 
    handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state.title)
-    // this.props.create(
-    //   {
-    //     title: this.state.title,
-    //     description: this.state.date,
-    //     points: this.state.city,
-    //     hostedBy: this.state.hostedBy
-    //   },
-    //   this.state.projectId
-    // );
-    this.setState({ title: '', date: '', city: '' ,   hostedBy: ''});
+
+    if (this.state.id){
+      this.props.editEvent(this.state)
+    }
+    else {
+      this.setState({ title: '', date: '', city: '' ,   hostedBy: ''});
+    }
+
+  
   }
 
   render() {
