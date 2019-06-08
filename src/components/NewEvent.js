@@ -44,7 +44,7 @@ class NewEvent extends Component {
   }
 
   render() {
-    const {closeForm} = this.props
+    const {closeForm, createEvent} = this.props
     return (
       
       <div>
